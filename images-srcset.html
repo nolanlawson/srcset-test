@@ -45,7 +45,7 @@ limitations under the License.
       padding-right: 0;
     }
 
-    @media all and (max-width: 800px) {
+    @media all and (max-width: 600px) {
       .columns .item {
         width: 100%;
         float: none;
@@ -54,6 +54,8 @@ limitations under the License.
     </style>
 
     <script type="text/javascript">
+    var RESIZE = false;
+
     document.addEventListener('DOMContentLoaded', function () {
       var srcsetImages = document.querySelectorAll('img[srcset]');
       for (var i = 0; i < srcsetImages.length; i++) {
@@ -61,23 +63,38 @@ limitations under the License.
           var img = event.currentTarget;
           //webkit does not currently support "currentSrc". "src" does not update
           // dynamically and will also be what is intially written in the markup.
-          console.log(event.currentTarget.currentSrc);
+          console.log(img.name, img.currentSrc);
         });
       }
 
-      window.addEventListener('resize', function() { handleResize(srcsetImages) });
+      if (RESIZE) {
+        window.addEventListener('resize', function() { handleResize(srcsetImages) });
+        console.log('[*] resize event enabled');
+      } else {
+        console.log('[ ] resize event disabled');
+      }
     });
 
     var resizeThrottleTimer = null;
     function handleResize(elements) {
-      clearTimeout(resizeThrottleTimer);
-      resizeThrottleTimer = setTimeout(reloadSrcset, 50, elements);
+      if (resizeThrottleTimer) {
+        clearTimeout(resizeThrottleTimer);
+        resizeThrottleTimer = null;
+      }
+      resizeThrottleTimer = setTimeout(reloadImages, 50, elements);
     }
 
-    function reloadSrcset() {
+    function reloadImages() {
+      /*
+        Benefits from resize event:
+        Chrome - no, inherent behavior is superior
+        Safari - yes, but loads smaller asset on resize down
+        Firefox - yes, but loads smaller asset on resize down
+      */
+
       for (var i = 0; i < arguments[0].length; i++) {
         var img = arguments[0][i];
-        img.srcset = img.srcset;
+        img.src = img.src;
       }
     }
     </script>
@@ -92,8 +109,8 @@ limitations under the License.
       <p>Same as the <a href="../picture"><code>picture</code> demo</a>, but with <code>srcset</code>.</p>
 
       <div style="text-align:center;">
-        <img
-          srcset="2500.png 2500w, 1500.png 1500w, 1000.png 1000w, 750.png 750w, 500.png 500w, 300.png 300w, 100.png 100w"
+        <img name="big-image"
+          srcset="2500.png?cache=1 2500w, 1500.png?cache=1 1500w, 1000.png?cache=1 1000w, 750.png?cache=1 750w, 500.png?cache=1 500w, 300.png?cache=1 300w, 100.png?cache=1 100w"
           sizes="100vw"
           alt="sample images"
           />
@@ -103,25 +120,25 @@ limitations under the License.
 
       <div class="columns">
         <div class="item">
-          <img
-            srcset="2500.png 2500w, 1500.png 1500w, 1000.png 1000w, 750.png 750w, 500.png 500w, 300.png 300w, 100.png 100w"
-            sizes="(min-width: 801px) 33vw, 100vw"
+          <img name="secondary-image-1"
+            srcset="2500.png?cache=2 2500w, 1500.png?cache=2 1500w, 1000.png?cache=2 1000w, 750.png?cache=2 750w, 500.png?cache=2 500w, 300.png?cache=2 300w, 100.png?cache=2 100w"
+            sizes="(min-width: 601px) 33vw, 100vw"
             alt="sample images"
             />
         </div>
 
         <div class="item">
-          <img
-            srcset="2500.png 2500w, 1500.png 1500w, 1000.png 1000w, 750.png 750w, 500.png 500w, 300.png 300w, 100.png 100w"
-            sizes="(min-width: 801px) 33vw, 100vw"
+          <img name="secondary-image-2"
+            srcset="2500.png?cache=3 2500w, 1500.png?cache=3 1500w, 1000.png?cache=3 1000w, 750.png?cache=3 750w, 500.png?cache=3 500w, 300.png?cache=3 300w, 100.png?cache=3 100w"
+            sizes="(min-width: 601px) 33vw, 100vw"
             alt="sample images"
             />
         </div>
 
         <div class="item">
-          <img
-            srcset="2500.png 2500w, 1500.png 1500w, 1000.png 1000w, 750.png 750w, 500.png 500w, 300.png 300w, 100.png 100w"
-            sizes="(min-width: 801px) 33vw, 100vw"
+          <img name="secondary-image-3"
+            srcset="2500.png?cache=4 2500w, 1500.png?cache=4 1500w, 1000.png?cache=4 1000w, 750.png?cache=4 750w, 500.png?cache=4 500w, 300.png?cache=4 300w, 100.png?cache=4 100w"
+            sizes="(min-width: 601px) 33vw, 100vw"
             alt="sample images"
             />
         </div>

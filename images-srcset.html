@@ -37,17 +37,50 @@ limitations under the License.
 
     .columns .item {
       float: left;
-      width: calc(100% * 0.3);
-      padding: 0 calc(100% * 0.033 / 2);
+      width: calc(100% * 0.33);
+      padding: 0 calc(100% * 0.005) 10px 0;
     }
 
-    @media all and (max-width: 600px) {
+    .columns .item:last-child {
+      padding-right: 0;
+    }
+
+    @media all and (max-width: 800px) {
       .columns .item {
         width: 100%;
         float: none;
       }
     }
     </style>
+
+    <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+      var srcsetImages = document.querySelectorAll('img[srcset]');
+      for (var i = 0; i < srcsetImages.length; i++) {
+        srcsetImages[i].addEventListener('load', function(event) {
+          var img = event.currentTarget;
+          //webkit does not currently support "currentSrc". "src" does not update
+          // dynamically and will also be what is intially written in the markup.
+          console.log(event.currentTarget.currentSrc);
+        });
+      }
+
+      window.addEventListener('resize', function() { handleResize(srcsetImages) });
+    });
+
+    var resizeThrottleTimer = null;
+    function handleResize(elements) {
+      clearTimeout(resizeThrottleTimer);
+      resizeThrottleTimer = setTimeout(reloadSrcset, 50, elements);
+    }
+
+    function reloadSrcset() {
+      for (var i = 0; i < arguments[0].length; i++) {
+        var img = arguments[0][i];
+        img.srcset = img.srcset;
+      }
+    }
+    </script>
 
   </head>
 
@@ -58,46 +91,39 @@ limitations under the License.
 
       <p>Same as the <a href="../picture"><code>picture</code> demo</a>, but with <code>srcset</code>.</p>
 
-      <!-- // [START code-block-source-media] -->
-
       <div style="text-align:center;">
         <img
           srcset="2500.png 2500w, 1500.png 1500w, 1000.png 1000w, 750.png 750w, 500.png 500w, 300.png 300w, 100.png 100w"
-          sizes="100%"
+          sizes="100vw"
           alt="sample images"
-          onload="console.log(event.currentTarget.currentSrc)"
-        />
+          />
       </div>
-      <!-- // [END code-block] -->
-
 
 <hr>
+
       <div class="columns">
         <div class="item">
           <img
             srcset="2500.png 2500w, 1500.png 1500w, 1000.png 1000w, 750.png 750w, 500.png 500w, 300.png 300w, 100.png 100w"
-            sizes="(min-width: 601px) 33vw, 100%"
+            sizes="(min-width: 801px) 33vw, 100vw"
             alt="sample images"
-            onload="console.log(event.currentTarget.currentSrc)"
-          />
+            />
         </div>
 
         <div class="item">
           <img
             srcset="2500.png 2500w, 1500.png 1500w, 1000.png 1000w, 750.png 750w, 500.png 500w, 300.png 300w, 100.png 100w"
-            sizes="(min-width: 601px) 33vw, 100%"
+            sizes="(min-width: 801px) 33vw, 100vw"
             alt="sample images"
-            onload="console.log(event.currentTarget.currentSrc)"
-          />
+            />
         </div>
 
         <div class="item">
           <img
             srcset="2500.png 2500w, 1500.png 1500w, 1000.png 1000w, 750.png 750w, 500.png 500w, 300.png 300w, 100.png 100w"
-            sizes="(min-width: 601px) 33vw, 100%"
+            sizes="(min-width: 801px) 33vw, 100vw"
             alt="sample images"
-            onload="console.log(event.currentTarget.currentSrc)"
-          />
+            />
         </div>
       </div>
 

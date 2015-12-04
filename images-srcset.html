@@ -12,8 +12,33 @@
     <title>&lt;srcset&gt; Element Sample</title>
 
     <style type="text/css">
+    * {
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    section {
+      border-bottom: 1px dotted #ccc;
+      margin-bottom: 20px;
+    }
+
+    figure {
+      margin: 0 0 20px 0;
+    }
+
     img {
       width: 100%;
+    }
+
+    figcaption {
+      font-size: 11px;
+      color: #777;
+    }
+
+    figcaption pre {
+      display: inline-block;
+      background: #eee;
+      padding: 3px 5px;
+      font-family: Courier, serif;
     }
 
     .columns {
@@ -23,7 +48,8 @@
     .columns .item {
       float: left;
       width: calc(100% * 0.33);
-      padding: 0 calc(100% * 0.005) 10px 0;
+      padding: 0 calc(100% * 0.005) 0 0;
+      margin: 0 0 20px 0;
     }
 
     .columns .item:last-child {
@@ -91,41 +117,58 @@
 
     <section>
 
-
-      <div style="text-align:center;">
+      <figure>
         <img name="big-image"
           srcset="2500.png?cache=1 2500w, 1500.png?cache=1 1500w, 1000.png?cache=1 1000w, 750.png?cache=1 750w, 500.png?cache=1 500w, 300.png?cache=1 300w, 100.png?cache=1 100w"
           sizes="100vw"
           alt="sample images"
           />
-      </div>
 
-<hr>
+        <figcaption>
+          This <pre>figure</pre> will remain 100% width at all viewport widths.
+        </figcaption>
+      </figure>
+
+    </section>
+
+    <section>
 
       <div class="columns">
-        <div class="item">
+        <figure class="item">
           <img name="secondary-image-1"
             srcset="2500.png?cache=2 2500w, 1500.png?cache=2 1500w, 1000.png?cache=2 1000w, 750.png?cache=2 750w, 500.png?cache=2 500w, 300.png?cache=2 300w, 100.png?cache=2 100w"
             sizes="(min-width: 601px) 33vw, 100vw"
             alt="sample images"
             />
-        </div>
 
-        <div class="item">
+            <figcaption>
+              This <pre>figure</pre> is 33% at a viewport width < 600px, 100% otherwise.
+            </figcaption>
+        </figure>
+
+        <figure class="item">
           <img name="secondary-image-2"
             srcset="2500.png?cache=3 2500w, 1500.png?cache=3 1500w, 1000.png?cache=3 1000w, 750.png?cache=3 750w, 500.png?cache=3 500w, 300.png?cache=3 300w, 100.png?cache=3 100w"
             sizes="(min-width: 601px) 33vw, 100vw"
             alt="sample images"
             />
-        </div>
 
-        <div class="item">
+          <figcaption>
+            This <pre>figure</pre> is 33% at a viewport width < 600px, 100% otherwise.
+          </figcaption>
+        </figure>
+
+        <figure class="item">
           <img name="secondary-image-3"
             srcset="2500.png?cache=4 2500w, 1500.png?cache=4 1500w, 1000.png?cache=4 1000w, 750.png?cache=4 750w, 500.png?cache=4 500w, 300.png?cache=4 300w, 100.png?cache=4 100w"
             sizes="(min-width: 601px) 33vw, 100vw"
             alt="sample images"
             />
-        </div>
+
+          <figcaption>
+            This <pre>figure</pre> is 33% at a viewport width < 600px, 100% otherwise.
+          </figcaption>
+        </figure>
       </div>
 
 

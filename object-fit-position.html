@@ -16,27 +16,51 @@
       font-family: Helvetica, Arial, sans-serif;
     }
 
+    h1 {
+      top: 20px;
+      left: 20px;
+    }
+
+    .overlay {
+      margin: 0;
+      z-index: 2;
+      position: absolute;
+      color: #eee;
+      background: rgba(50, 50, 50, 0.5);
+      padding: 10px 15px;
+    }
+
     section:not(:last-of-type) {
       border-bottom: 1px dotted #ccc;
       margin-bottom: 20px;
     }
 
     figure {
-      margin: 0 0 20px 0;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
 
     img {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 100% 100%;
     }
 
     figcaption {
       font-size: 11px;
       color: #777;
+      bottom: 20px;
+      left: 20px;
     }
 
     figcaption pre {
       display: inline-block;
-      background: #eee;
+      background: rgba(20, 20, 20, 0.5);
       padding: 3px 5px;
       font-family: Courier, serif;
     }
@@ -113,19 +137,19 @@
   </head>
 
   <body>
-    <h1>&lt;object-fit&gt; exmaple</h1>
+    <h1 class="overlay">&lt;object-fit&gt; exmaple</h1>
 
     <section>
 
       <figure>
         <img name="big-image"
-          srcset="2500.png?cache=1 2500w, 1500.png?cache=1 1500w, 1000.png?cache=1 1000w, 750.png?cache=1 750w, 500.png?cache=1 500w, 300.png?cache=1 300w, 100.png?cache=1 100w"
+          srcset="2500-br.png?cache=1 2500w, 1500-br.png?cache=1 1500w, 1000-br.png?cache=1 1000w, 750-br.png?cache=1 750w, 500-br.png?cache=1 500w, 300-br.png?cache=1 300w, 100-br.png?cache=1 100w"
           sizes="100vw"
           alt="sample images"
           />
 
-        <figcaption>
-          This <pre>figure</pre> will remain 100% width at all viewport widths.
+        <figcaption class="overlay">
+          This <pre>figure</pre> will display the bottom right corner of its child <pre>img</pre>.
         </figcaption>
       </figure>
 

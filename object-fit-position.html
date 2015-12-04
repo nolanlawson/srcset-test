@@ -1,0 +1,135 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="description" content="Sample illustrating the use of the picture element.">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>&lt;srcset&gt; Element Sample</title>
+
+    <style type="text/css">
+    * {
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    section:not(:last-of-type) {
+      border-bottom: 1px dotted #ccc;
+      margin-bottom: 20px;
+    }
+
+    figure {
+      margin: 0 0 20px 0;
+    }
+
+    img {
+      width: 100%;
+    }
+
+    figcaption {
+      font-size: 11px;
+      color: #777;
+    }
+
+    figcaption pre {
+      display: inline-block;
+      background: #eee;
+      padding: 3px 5px;
+      font-family: Courier, serif;
+    }
+
+    .columns {
+      width: 100%;
+    }
+
+    .columns .item {
+      float: left;
+      width: calc(100% * 0.33);
+      padding: 0 calc(100% * 0.005) 0 0;
+      margin: 0 0 20px 0;
+    }
+
+    .columns .item:last-child {
+      padding-right: 0;
+    }
+
+    @media all and (max-width: 600px) {
+      .columns .item {
+        width: 100%;
+        float: none;
+      }
+    }
+    </style>
+
+    <script type="text/javascript">
+    var RESIZE = false;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var srcsetImages = document.querySelectorAll('img[srcset]');
+      for (var i = 0; i < srcsetImages.length; i++) {
+        srcsetImages[i].addEventListener('load', function(event) {
+          var img = event.currentTarget;
+          //webkit does not currently support "currentSrc". "src" does not update
+          // dynamically and will also be what is intially written in the markup.
+          console.log(img.name, img.currentSrc);
+        });
+      }
+
+      if (RESIZE) {
+        window.addEventListener('resize', function() { handleResize(srcsetImages) });
+        console.log('[*] resize event enabled');
+      } else {
+        console.log('[ ] resize event disabled');
+      }
+    });
+
+    var resizeThrottleTimer = null;
+    function handleResize(elements) {
+      if (resizeThrottleTimer) {
+        clearTimeout(resizeThrottleTimer);
+        resizeThrottleTimer = null;
+      }
+      resizeThrottleTimer = setTimeout(reloadImages, 50, elements);
+    }
+
+    function reloadImages() {
+      /*
+        Benefits from resize event:
+        Chrome - no, inherent behavior is superior
+        Safari - yes, but loads smaller asset on resize down
+        Firefox - yes, but loads smaller asset on resize down
+      */
+
+      for (var i = 0; i < arguments[0].length; i++) {
+        var img = arguments[0][i];
+        img.src = img.src;
+      }
+    }
+    </script>
+
+  </head>
+
+  <body>
+    <h1>&lt;object-fit&gt; exmaple</h1>
+
+    <section>
+
+      <figure>
+        <img name="big-image"
+          srcset="2500.png?cache=1 2500w, 1500.png?cache=1 1500w, 1000.png?cache=1 1000w, 750.png?cache=1 750w, 500.png?cache=1 500w, 300.png?cache=1 300w, 100.png?cache=1 100w"
+          sizes="100vw"
+          alt="sample images"
+          />
+
+        <figcaption>
+          This <pre>figure</pre> will remain 100% width at all viewport widths.
+        </figcaption>
+      </figure>
+
+    </section>
+
+  </body>
+</html>
